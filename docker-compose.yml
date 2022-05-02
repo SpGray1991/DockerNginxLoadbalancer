@@ -1,0 +1,19 @@
+services:
+  redis:
+    image: "redislabs/redismod"
+    ports:
+      - "6380:6379"
+  web:
+    restart: on-failure
+    build: ./web
+    hostname: web
+    ports:
+      - "7000-7002:5000"
+    scale: 3
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - web
